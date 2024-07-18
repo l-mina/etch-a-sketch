@@ -11,6 +11,11 @@ function createGrid(n) {
         }
         container.appendChild(horGrid);
     }
+    //adjust height
+    const cell = container.querySelectorAll(":scope > div > div");
+    cell.forEach((item)=>item.style.height = (100/n)-1 + .4+'%');
+    console.log((100/n)-1 +'%');
+    console.log("done");
 }
 
 // remove grid
@@ -22,17 +27,25 @@ function removeGrid(){
 
 // Hover over grid
 function hover(){
-    const cell = container.querySelectorAll(":scope > div > div")
+    const cell = container.querySelectorAll(":scope > div > div");
+    let r,g,b;
     cell.forEach((item)=>item.addEventListener("mouseover",(event)=>{
-    event.target.classList.add("fill-in");
-    setTimeout(() => {
-        event.target.classList.remove("fill-in");
-      }, 1000);
-}));
+        //console.log("num: "+(event.target.style.background = 'red'));
+        if(event.target.style.background == ''){
+            r = Math.floor(Math.random() * 256);
+            g = Math.floor(Math.random() * 256);
+            b = Math.floor(Math.random() * 256);
+            event.target.style.background = "rgb("+r+","+g+","+b+")";
+            event.target.style.opacity = ".1";
+        }
+        else {
+            let x  = event.target.style.opacity;
+            event.target.style.opacity = " "+(parseFloat(x)+.2)+" ";
+            console.log("opc: "+x);
+        }
+        console.log("num: "+(event.target.style.background));
+    }));
 };
-
-// Edit cell size
-
 
 // Button for new square grid
 const btn = document.querySelector("button");
@@ -49,8 +62,6 @@ btn.addEventListener("click",()=>{
             break;
         }
     }
-    
     createGrid(input);
     hover();
 });
-
